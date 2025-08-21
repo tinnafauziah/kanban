@@ -2,6 +2,7 @@
 import KanbanBoard from "@/components/KanbanBoard";
 import { Button } from "@/components/ui/button";
 import { useLoginStore } from "@/store/login";
+import TaskForm from "@/components/TaskForm";
 
 export default function Home() {
   const { loggedUser } = useLoginStore();
@@ -12,7 +13,9 @@ export default function Home() {
           <h1 className="text-2xl font-bold">
             Hello {loggedUser?.name}, Here's your tasks
           </h1>
-          <Button className="ml-4">Add Task</Button>
+          <>
+            <TaskForm Trigger={<Button className="ml-4">Add Task</Button>} />
+          </>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <KanbanBoard title="TO DO" />
