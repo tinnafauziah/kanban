@@ -10,7 +10,7 @@ export default function Home() {
       <main className="flex flex-col w-3/4 mx-auto ">
         <div className="flex my-8 justify-between items-center">
           <h1 className="text-2xl font-bold">
-            Hello {loggedUser.name}, Here's your tasks
+            Hello {loggedUser?.name}, Here's your tasks
           </h1>
           <Button className="ml-4">Add Task</Button>
         </div>
