@@ -18,7 +18,7 @@ export default function Login() {
           priority
         />
       </div>
-      <div className="flex flex-col justify-center w-1/2 h-screen bg-gray-100 px-24">
+      <div className="flex flex-col justify-center w-1/2 h-screen bg-white px-24">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
         <form className="flex flex-col w-full">
           <div className="mb-2 p-2 border-b border-gray-300">
