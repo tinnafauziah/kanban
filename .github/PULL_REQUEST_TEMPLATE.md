@@ -1,11 +1,8 @@
-# Pull Request Template
 
 ## Description
 
 Please include a summary of the changes and the related issue.  
 Explain **why** these changes are needed.
-
-Fixes # (issue number)
 
 ---
 
@@ -18,19 +15,6 @@ Please delete options that are not relevant:
 - [ ] Breaking change
 - [ ] Documentation update
 - [ ] Refactoring
-
----
-
-## How Has This Been Tested?
-
-Describe the tests that you ran to verify your changes.  
-Provide instructions so we can reproduce. Examples:
-
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] Manual testing
-
----
 
 ## Checklist
 
