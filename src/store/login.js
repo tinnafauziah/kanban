@@ -28,6 +28,8 @@ export async function login(username, password) {
     useLoginStore.setState({ loggedUser: user });
     return response?.data?.[0] || null;
   } else {
-    return Promise.reject(new Error("Invalid username or password"));
+    return Promise.reject(
+      new Error("Invalid username or password, please try again")
+    );
   }
 }

@@ -33,10 +33,14 @@ export default function Login() {
     } catch (error) {
       // since the user is mocked not found user will same as 404 instead 401
       if (error.response?.status === 404) {
-        setLoginErrorMessage("User not authorized");
+        setLoginErrorMessage(
+          "User not registered in the system, please sign up"
+        );
       } else {
         const errorMessage =
-          error.response?.data?.message || "Invalid username or password";
+          error.response?.data?.message ||
+          error?.message ||
+          "Unexpected error occurred, please try again";
         setLoginErrorMessage(errorMessage);
       }
     }
