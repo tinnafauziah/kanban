@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useLoginStore } from "@/store/login";
+import { Button } from "./ui/button";
 
 export default function Sidebar() {
   const { loggedUser } = useLoginStore();
@@ -20,13 +21,25 @@ export default function Sidebar() {
             <AvatarImage src={loggedUser.avatar || "/default-avatar.png"} />
             <AvatarFallback>{loggedUser?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
-          <LayoutGrid className="text-gray-500" />
-          <FileText className="text-gray-500" />
-          <MessageCircleMore className="text-gray-500" />
-          <Users className="text-gray-500" />
-          <Settings className="text-gray-500" />
+          <Button size="icon" variant="ghost">
+            <LayoutGrid className="text-gray-500 size-6" />
+          </Button>
+          <Button size="icon" variant="ghost">
+            <FileText className="text-gray-500 size-6" />
+          </Button>
+          <Button size="icon" variant="ghost">
+            <MessageCircleMore className="text-gray-500 size-6" />
+          </Button>
+          <Button size="icon" variant="ghost">
+            <Users className="text-gray-500 size-6" />
+          </Button>
+          <Button size="icon" variant="ghost">
+            <Settings className="text-gray-500 size-6" />
+          </Button>
         </div>
-        <LogOut className="text-gray-500" />
+        <Button size="icon" variant="ghost">
+          <LogOut className="text-gray-500 size-6" />
+        </Button>
       </div>
     </div>
   );
