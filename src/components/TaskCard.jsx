@@ -8,8 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DESIGN, BACKEND, FRONTEND } from "@/type/task";
+import { useRouter } from "next/navigation";
 
 export default function TaskCard({ task }) {
+  const router = useRouter();
   const badgeTeamMap = {
     [DESIGN]: (
       <Badge key={DESIGN} variant="secondary">
@@ -27,9 +29,12 @@ export default function TaskCard({ task }) {
       </Badge>
     ),
   };
+  const handleCardClick = (taskId) => {
+    router.push(`/${taskId}`);
+  };
 
   return (
-    <Card>
+    <Card onClick={() => handleCardClick(task.id)}>
       <CardContent>
         <CardTitle className="text-lg font-bold mb-2 hover:underline hover:cursor-default">
           {task.name}
