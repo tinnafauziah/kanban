@@ -24,7 +24,7 @@ export default function Home() {
     <div className="font-sans min-h-screen bg-slate-100 w-full">
       <main className="flex flex-col w-3/4 mx-auto ">
         <div className="flex my-8 justify-between items-center">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-semibold">
             Hello {loggedUser?.name}, Here's your tasks
           </h1>
           <>
