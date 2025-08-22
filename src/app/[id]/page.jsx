@@ -77,7 +77,7 @@ export default function Detail() {
               </CardTitle>
             )}
             <div className="flex text-muted-foreground text-sm font-medium justify-between gap-2">
-              <div>
+              <div className="w-3/4">
                 {loading ? (
                   <Skeleton className="mt-2 h-[50px] w-[700px] rounded-full" />
                 ) : (
@@ -98,7 +98,7 @@ export default function Detail() {
                   <p className="mt-4">Status: {selectedTask.status}</p>
                 )}
               </div>
-              <div className="w-1/2">
+              <div>
                 {loading ? (
                   <Skeleton className="mt-2 h-[50px] w-[300px] rounded-full" />
                 ) : (
