@@ -12,9 +12,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader2Icon } from "lucide-react";
 
-export default function ConfirmationModal({ Trigger, id, onConfirm }) {
+export default function ConfirmationModal({ Trigger, id, onConfirm, loading }) {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleOpenDialog = (isOpen) => {
     if (!loading) {
@@ -23,16 +22,8 @@ export default function ConfirmationModal({ Trigger, id, onConfirm }) {
   };
 
   const handleConfirm = async (id) => {
-    setLoading(true);
-    try {
-      if (id) {
-        await onConfirm(id);
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      // Handle error appropriately, e.g., show a notification
-    } finally {
-      setLoading(false);
+    if (id) {
+      await onConfirm(id);
     }
   };
 

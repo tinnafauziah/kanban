@@ -27,7 +27,6 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       const success = await login(data.username, data.password);
-      console.log(success);
       if (success) {
         router.push("/");
       }

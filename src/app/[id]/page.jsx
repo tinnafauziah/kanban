@@ -32,9 +32,16 @@ export default function Detail() {
   const { openToast } = useToastStore();
 
   const handleDelete = async (id) => {
-    await deleteTask(id, loggedUser.id);
-    router.replace("/");
-    openToast("Task already deleted");
+    setLoading(true);
+    try {
+      await deleteTask(id, loggedUser.id);
+      router.replace("/");
+      openToast("Task already deleted");
+    } catch {
+      openToast("Task already deleted");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchTaskDetail = (id) => {
@@ -117,6 +124,7 @@ export default function Detail() {
           <div>or</div>
           <ConfirmationModal
             onConfirm={handleDelete}
+            loading={loading}
             Trigger={
               <Button className="my-8 px-0" variant="ghost" size="sm">
                 <p className="text-destructive font-normal">Delete</p>

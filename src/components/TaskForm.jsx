@@ -78,8 +78,11 @@ export default function TaskForm({ Trigger, task }) {
       reset();
       setOpen(false);
     } catch (error) {
-      console.error("Error creating task:", error);
-      // Handle error appropriately, e.g., show a notification
+      if (task.id) {
+        openToast("Error updating task");
+      } else {
+        openToast("Error creating task");
+      }
     } finally {
       setLoading(false);
     }
