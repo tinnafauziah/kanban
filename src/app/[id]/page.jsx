@@ -6,11 +6,13 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { fetchTaskById, useTaskStore } from "@/store/task";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { BADGES_TEAM_MAP } from "@/type/task";
 import { formatDate } from "@/lib/date";
+import TaskForm from "@/components/TaskForm";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Detail() {
@@ -92,6 +94,12 @@ export default function Detail() {
             </div>
           </CardContent>
         </Card>
+        <div className="flex justify-end">
+          <TaskForm
+            task={selectedTask}
+            Trigger={<Button className="my-8">Edit Task</Button>}
+          />
+        </div>
       </main>
     </div>
   );
