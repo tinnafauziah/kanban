@@ -52,10 +52,10 @@ export default function TaskForm({ Trigger, task }) {
   useEffect(() => {
     if (open && task) {
       reset({
-        name: task.name || "",
-        description: task.description || "",
-        teams: task.teams || [],
-        status: task.status || TODO,
+        name: task?.name || "",
+        description: task?.description || "",
+        teams: task?.teams || [],
+        status: task?.status || TODO,
       });
     }
   }, [open, task, reset]);
