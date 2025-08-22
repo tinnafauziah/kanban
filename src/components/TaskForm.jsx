@@ -25,9 +25,13 @@ import { createTask } from "@/store/task";
 import { useLoginStore } from "@/store/login";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
+import { TODO, STATUSES } from "@/type/task"; // Assuming you have a type file for task constants
+import { Loader2Icon } from "lucide-react";
 
 export default function TaskForm({ Trigger }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -40,6 +44,7 @@ export default function TaskForm({ Trigger }) {
   const { loggedUser } = useLoginStore();
   const teams = ["Design", "Backend", "Frontend"];
   const onSubmit = async (data) => {
+    setLoading(true);
     const requestBody = {
       ...data,
       userId: loggedUser?.id,
@@ -49,21 +54,25 @@ export default function TaskForm({ Trigger }) {
       reset();
       setOpen(false);
     } catch (error) {
-      console.log("Error creating task:", error);
-      console.error("Failed to create task:", error);
+      console.error("Error creating task:", error);
+      // Handle error appropriately, e.g., show a notification
+    } finally {
+      setLoading(false);
     }
   };
   const handleOpenDialog = (isOpen) => {
-    setOpen(isOpen);
-    if (!isOpen) {
-      reset();
+    if (!loading) {
+      setOpen(isOpen);
+      if (!isOpen) {
+        reset();
+      }
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenDialog}>
       <DialogTrigger asChild>{Trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Add Task</DialogTitle>
@@ -119,16 +128,20 @@ export default function TaskForm({ Trigger }) {
               <Controller
                 name="status"
                 control={control}
-                defaultValue="TODO"
+                defaultValue={TODO.value}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Pick a status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="TODO">TO DO</SelectItem>
-                      <SelectItem value="DOING">DOING</SelectItem>
-                      <SelectItem value="DONE">DONE</SelectItem>
+                      {STATUSES.map((status) => {
+                        return (
+                          <SelectItem key={status.value} value={status.value}>
+                            {status.label}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 )}
@@ -137,9 +150,25 @@ export default function TaskForm({ Trigger }) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2Icon className="animate-spin" /> Loading
+                  </>
+                ) : (
+                  "Cancel"
+                )}
+              </Button>
             </DialogClose>
-            <Button type="submit">Save</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2Icon className="animate-spin" /> Loading
+                </>
+              ) : (
+                "Save"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
