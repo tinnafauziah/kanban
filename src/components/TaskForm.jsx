@@ -1,3 +1,4 @@
+"use client";
 import {
   Dialog,
   DialogClose,
@@ -21,14 +22,14 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import taskSchema from "@/validation-schema/task";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTask } from "@/store/task";
+import { createTask, updateTask } from "@/store/task";
 import { useLoginStore } from "@/store/login";
 import { Controller, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TODO, STATUSES, TEAMS } from "@/type/task"; // Assuming you have a type file for task constants
 import { Loader2Icon } from "lucide-react";
 
-export default function TaskForm({ Trigger }) {
+export default function TaskForm({ Trigger, task }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -40,19 +41,40 @@ export default function TaskForm({ Trigger }) {
     reset,
   } = useForm({
     resolver: zodResolver(taskSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      teams: [],
+      status: TODO,
+    },
   });
   const { loggedUser } = useLoginStore();
-  const teams = TEAMS;
+  useEffect(() => {
+    if (open && task) {
+      reset({
+        name: task.name || "",
+        description: task.description || "",
+        teams: task.teams || [],
+        status: task.status || TODO,
+      });
+    }
+  }, [open, task, reset]);
   const onSubmit = async (data) => {
     setLoading(true);
     const requestBody = {
       ...data,
       userId: loggedUser?.id,
-      createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
     try {
-      await createTask(requestBody);
+      if (task?.id) {
+        await updateTask(task.id, requestBody);
+      } else {
+        await createTask({
+          ...requestBody,
+          createdAt: new Date().toISOString(),
+        });
+      }
       reset();
       setOpen(false);
     } catch (error) {
@@ -66,7 +88,12 @@ export default function TaskForm({ Trigger }) {
     if (!loading) {
       setOpen(isOpen);
       if (!isOpen) {
-        reset();
+        reset({
+          name: task.name || "",
+          description: task.description || "",
+          teams: task.teams || [],
+          status: task.status || TODO,
+        });
       }
     }
   };
@@ -77,7 +104,7 @@ export default function TaskForm({ Trigger }) {
       <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add Task</DialogTitle>
+            <DialogTitle>{task?.id ? "Edit a Task" : "Add a Task"}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4 px-4">
             <div className="grid gap-2">
@@ -105,7 +132,7 @@ export default function TaskForm({ Trigger }) {
               defaultValue={[]}
               render={({ field }) => (
                 <div className="grid gap-2">
-                  {teams.map((tag) => (
+                  {TEAMS.map((tag) => (
                     <Label key={tag}>
                       <Checkbox
                         checked={field.value.includes(tag)}
