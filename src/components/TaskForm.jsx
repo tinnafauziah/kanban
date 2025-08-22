@@ -25,7 +25,7 @@ import { createTask } from "@/store/task";
 import { useLoginStore } from "@/store/login";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import { TODO, STATUSES } from "@/type/task"; // Assuming you have a type file for task constants
+import { TODO, STATUSES, TEAMS } from "@/type/task"; // Assuming you have a type file for task constants
 import { Loader2Icon } from "lucide-react";
 
 export default function TaskForm({ Trigger }) {
@@ -42,7 +42,7 @@ export default function TaskForm({ Trigger }) {
     resolver: zodResolver(taskSchema),
   });
   const { loggedUser } = useLoginStore();
-  const teams = ["Design", "Backend", "Frontend"];
+  const teams = TEAMS;
   const onSubmit = async (data) => {
     setLoading(true);
     const requestBody = {
@@ -128,7 +128,7 @@ export default function TaskForm({ Trigger }) {
               <Controller
                 name="status"
                 control={control}
-                defaultValue={TODO.value}
+                defaultValue={TODO}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="w-full">
