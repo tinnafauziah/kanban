@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/store/login";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -99,13 +100,13 @@ export default function Login() {
               <p className="text-destructive">{errors.password.message}</p>
             )}
           </div>
-          <button
+          <Button
             type="submit"
             className="bg-blue-500 text-white p-2 rounded mt-4"
             onClick={handleSubmit(onSubmit)}
           >
             Login
-          </button>
+          </Button>
         </form>
         {loginErrorMessage && (
           <p className="text-destructive mt-8">{loginErrorMessage}</p>
