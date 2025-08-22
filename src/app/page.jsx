@@ -9,18 +9,21 @@ import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const { loggedUser } = useLoginStore();
+  const { loggedUser, isHydrated } = useLoginStore();
   const todoTasks = useTaskStore((state) => state[TODO]);
   const doingTasks = useTaskStore((state) => state[DOING]);
   const doneTasks = useTaskStore((state) => state[DONE]);
 
   useEffect(() => {
+    if (!isHydrated) return; // wait until store is loaded from localStorage
+
     if (loggedUser) {
       fetchTasks(loggedUser.id, TODO);
       fetchTasks(loggedUser.id, DOING);
       fetchTasks(loggedUser.id, DONE);
     }
-  }, [loggedUser]);
+  }, [loggedUser, isHydrated]);
+
   return (
     <div className="font-sans min-h-screen bg-slate-100 w-full">
       <main className="flex flex-col w-3/4 mx-auto ">
