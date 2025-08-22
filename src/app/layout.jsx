@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
+import { ToasterListener } from "@/components/ToasterListener";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +25,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+        <Toaster position="bottom-right" />
+        <ToasterListener />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

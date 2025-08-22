@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { fetchTaskById, useTaskStore } from "@/store/task";
+import { useToastStore } from "@/store/toast";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { BADGES_TEAM_MAP } from "@/type/task";
@@ -23,6 +24,8 @@ export default function Detail() {
 
   const [loading, setLoading] = useState(true);
 
+  const { openToast } = useToastStore();
+
   const fetchTaskDetail = (id) => {
     setLoading(true);
     fetchTaskById(id).finally(() => {
@@ -31,6 +34,7 @@ export default function Detail() {
   };
 
   useEffect(() => {
+    openToast("Fetching task details...");
     fetchTaskDetail(id);
   }, [id]);
 
