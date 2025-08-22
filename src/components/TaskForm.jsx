@@ -53,6 +53,7 @@ export default function TaskForm({ Trigger }) {
       await createTask(requestBody);
       reset();
       setOpen(false);
+      console.log("Task created successfully:", requestBody);
     } catch (error) {
       console.error("Error creating task:", error);
       // Handle error appropriately, e.g., show a notification

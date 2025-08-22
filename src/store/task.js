@@ -25,6 +25,7 @@ export async function createTask(body) {
     STATUSES.forEach((status) => {
       fetchTasks(body.userId, status.value);
     });
+    console.log(response.data);
     return response.data;
   } else {
     return Promise.reject(new Error("Failed to create task"));
