@@ -71,3 +71,7 @@ export async function updateTask(id, body) {
     return Promise.reject(new Error("Failed to update task"));
   }
 }
+
+export async function deleteTask(id) {
+  await axios.delete(`${URL}/${id}`);
+}

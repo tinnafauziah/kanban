@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 import { BADGES_TEAM_MAP } from "@/type/task";
 import { formatDate } from "@/lib/date";
 import TaskForm from "@/components/TaskForm";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Detail() {
@@ -94,10 +95,19 @@ export default function Detail() {
             </div>
           </CardContent>
         </Card>
-        <div className="flex justify-end">
+        <div className="flex justify-end  items-center gap-2">
           <TaskForm
             task={selectedTask}
             Trigger={<Button className="my-8">Edit Task</Button>}
+          />
+          <div>or</div>
+          <ConfirmationModal
+            Trigger={
+              <Button className="my-8 px-0" variant="ghost" size="sm">
+                <p className="text-destructive font-normal">Delete</p>
+              </Button>
+            }
+            id={selectedTask?.id}
           />
         </div>
       </main>
