@@ -15,10 +15,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Detail() {
   const { id } = useParams();
-  const breadcrumbLinks = [
-    { label: "Dashboard", href: "/" },
-    { label: "Task Detail" },
-  ];
 
   const { selectedTask } = useTaskStore();
 
@@ -34,6 +30,11 @@ export default function Detail() {
   useEffect(() => {
     fetchTaskDetail(id);
   }, [id]);
+
+  const breadcrumbLinks = [
+    { label: "Dashboard", href: "/" },
+    { label: selectedTask.name },
+  ];
 
   return (
     <div className="font-sans min-h-screen bg-slate-100 w-full">
@@ -73,7 +74,7 @@ export default function Detail() {
                   <p className="mt-4">Status: {selectedTask.status}</p>
                 )}
               </div>
-              <div className="mr-8">
+              <div className="w-1/2">
                 {loading ? (
                   <Skeleton className="mt-2 h-[50px] w-[300px] rounded-full" />
                 ) : (
