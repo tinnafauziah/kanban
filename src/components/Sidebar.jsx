@@ -27,7 +27,7 @@ export default function Sidebar() {
             <AvatarImage src={loggedUser?.avatar || "/default-avatar.png"} />
             <AvatarFallback>{loggedUser?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
-          <Button size="icon" variant="ghost">
+          <Button size="icon" variant="ghost" onClick={() => route.push("/")}>
             <LayoutGrid className="text-gray-500 size-6" />
           </Button>
           <Button size="icon" variant="ghost">
