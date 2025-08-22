@@ -9,15 +9,18 @@ import { useEffect } from "react";
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { loggedUser } = useLoginStore();
+
+  const { loggedUser, isHydrated } = useLoginStore();
 
   useEffect(() => {
+    if (!isHydrated) return; // wait until store is loaded from localStorage
+
     if (!loggedUser?.id && pathname !== "/login") {
       router.replace("/login");
     } else if (loggedUser?.id && pathname === "/login") {
       router.replace("/");
     }
-  }, [loggedUser]);
+  }, [loggedUser, isHydrated, router, pathname]);
 
   return (
     <div>

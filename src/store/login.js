@@ -7,11 +7,15 @@ export const useLoginStore = create(
     (set) => ({
       loggedUser: {},
       logOut: () => set({ loggedUser: {} }),
+      isHydrated: false,
     }),
     {
       name: "login-storage",
       getStorage: () => localStorage,
       partialize: (state) => ({ loggedUser: state.loggedUser }),
+      onRehydrateStorage: () => (state, error) => {
+        if (!error && state) state.isHydrated = true;
+      },
     }
   )
 );
