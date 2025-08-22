@@ -6,7 +6,7 @@ export const useLoginStore = create(
   persist(
     (set) => ({
       loggedUser: {},
-      reset: () => set({ loggedUser: {} }),
+      logOut: () => set({ loggedUser: {} }),
     }),
     {
       name: "login-storage",

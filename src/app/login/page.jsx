@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import loginSchema from "@/validation-schema/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/store/login";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -60,7 +60,7 @@ export default function Login() {
       <div className="flex flex-col justify-center w-1/2 h-screen bg-gray-100 px-24">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
         <form className="flex flex-col w-full">
-          <div className={twMerge(errors.username ? "mb-2" : "mb-8")}>
+          <div className={cn(errors.username ? "mb-2" : "mb-8")}>
             <div className="mb-1 p-2 border-b border-gray-300">
               <input
                 {...register("username")}
@@ -70,10 +70,10 @@ export default function Login() {
               />
             </div>
             {errors.username && (
-              <p className="text-red-400">{errors.username.message}</p>
+              <p className="text-destructive">{errors.username.message}</p>
             )}
           </div>
-          <div className={twMerge(errors.password ? "mb-2" : "mb-8")}>
+          <div className={cn(errors.password ? "mb-2" : "mb-8")}>
             <div className="flex mb-1 p-2 border-b border-gray-300 justify-between">
               <input
                 {...register("password")}
@@ -96,7 +96,7 @@ export default function Login() {
               </div>
             </div>
             {errors.password && (
-              <p className="text-red-400">{errors.password.message}</p>
+              <p className="text-destructive">{errors.password.message}</p>
             )}
           </div>
           <button
@@ -108,7 +108,7 @@ export default function Login() {
           </button>
         </form>
         {loginErrorMessage && (
-          <p className="text-red-400 mt-8">{loginErrorMessage}</p>
+          <p className="text-destructive mt-8">{loginErrorMessage}</p>
         )}
       </div>
     </div>
