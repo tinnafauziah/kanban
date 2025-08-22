@@ -1,3 +1,5 @@
+import { Badge } from "@/components/ui/badge";
+
 export const TODO = "TODO";
 export const TODO_LABEL = "TO DO";
 
@@ -16,3 +18,21 @@ export const BACKEND = "Backend";
 export const FRONTEND = "Frontend";
 
 export const TEAMS = [DESIGN, BACKEND, FRONTEND];
+
+export const BADGES_TEAM_MAP = {
+  [DESIGN]: (
+    <Badge key={DESIGN} variant="secondary">
+      {DESIGN}
+    </Badge>
+  ),
+  [BACKEND]: (
+    <Badge key={BACKEND} variant="success">
+      {BACKEND}
+    </Badge>
+  ),
+  [FRONTEND]: (
+    <Badge key={FRONTEND} variant="purple">
+      {FRONTEND}
+    </Badge>
+  ),
+};

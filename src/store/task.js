@@ -2,16 +2,19 @@
 import { create } from "zustand";
 import axios from "axios";
 import { STATUSES, TODO, DOING, DONE } from "@/type/task";
+import { id } from "zod/v4/locales";
 
 export const useTaskStore = create((set) => ({
   [TODO]: [],
   [DOING]: [],
   [DONE]: [],
+  selectedTask: {},
   setTasks: (status, tasks) =>
     set((state) => ({
       ...state,
       [status]: tasks,
     })),
+  setSelectedTask: (task) => set({ selectedTask: task }),
 }));
 
 export async function createTask(body) {
@@ -46,4 +49,20 @@ export async function fetchTasks(userId, status) {
     useTaskStore.getState().setTasks(status, response.data);
   }
   return response?.data || [];
+}
+
+export async function fetchTaskById(id) {
+  let response = null;
+  try {
+    response = await axios.get(
+      `https://68a5db382a3deed2960f28d3.mockapi.io/api/task/${id}`
+    );
+  } catch {
+    useTaskStore.getState().setSelectedTask({});
+  }
+
+  if (response?.data) {
+    useTaskStore.getState().setSelectedTask(response.data);
+  }
+  return response?.data || {};
 }

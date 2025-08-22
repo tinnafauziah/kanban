@@ -48,6 +48,8 @@ export default function TaskForm({ Trigger }) {
     const requestBody = {
       ...data,
       userId: loggedUser?.id,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     try {
       await createTask(requestBody);
