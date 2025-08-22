@@ -11,29 +11,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader2Icon } from "lucide-react";
-import { deleteTask } from "@/store/task";
 
-export default function TaskForm({ Trigger, id }) {
+export default function ConfirmationModal({ Trigger, id, onConfirm }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleDelete = async () => {
+  const handleOpenDialog = (isOpen) => {
+    if (!loading) {
+      setOpen(isOpen);
+    }
+  };
+
+  const handleConfirm = async (id) => {
     setLoading(true);
     try {
       if (id) {
-        await deleteTask(id);
+        await onConfirm(id);
       }
     } catch (error) {
       console.error("Error deleting task:", error);
       // Handle error appropriately, e.g., show a notification
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleOpenDialog = (isOpen) => {
-    if (!loading) {
-      setOpen(isOpen);
     }
   };
 
@@ -57,7 +56,11 @@ export default function TaskForm({ Trigger, id }) {
               )}
             </Button>
           </DialogClose>
-          <Button type="submit" disabled={loading} onClick={handleDelete}>
+          <Button
+            type="submit"
+            disabled={loading}
+            onClick={() => handleConfirm(id)}
+          >
             {loading ? (
               <>
                 <Loader2Icon className="animate-spin" /> Loading
