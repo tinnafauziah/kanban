@@ -1,6 +1,12 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { DESIGN, BACKEND, FRONTEND } from "@/type/task";
 
 export default function TaskCard({ task }) {
@@ -23,14 +29,18 @@ export default function TaskCard({ task }) {
   };
 
   return (
-    <div className="border p-4 rounded-xl bg-white border-gray-200">
-      <h5 className="font-bold text-lg text-gray-800">{task.name}</h5>
-      <p className="text-gray-500 font-medium my-2 line-clamp-2 mb-4">
-        {task.description}
-      </p>
-      <div className="flex gap-2">
-        {task.teams.map((team) => badgeTeamMap[team])}
-      </div>
-    </div>
+    <Card>
+      <CardContent>
+        <CardTitle className="text-lg font-bold mb-2 hover:underline hover:cursor-default">
+          {task.name}
+        </CardTitle>
+        <CardDescription className="line-clamp-2">
+          {task.description}
+        </CardDescription>
+        <div className="flex gap-2 mt-4">
+          {task.teams.map((team) => badgeTeamMap[team])}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
