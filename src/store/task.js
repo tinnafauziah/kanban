@@ -3,7 +3,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { STATUSES, TODO, DOING, DONE } from "@/type/task";
 
-const URL = "https://68a5db382a3deed2960f28d3.mockapi.io/api/task";
+const URL = "https://68a5db382a3deed2960f28d3.mockapi.io/api";
 
 export const useTaskStore = create((set) => ({
   [TODO]: [],
@@ -19,7 +19,7 @@ export const useTaskStore = create((set) => ({
 }));
 
 export async function createTask(body) {
-  const response = await axios.post(URL, body);
+  const response = await axios.post(`${URL}/task`, body);
 
   if (response?.data) {
     useTaskStore.getState().setTasks(response.data, body.status);
@@ -35,7 +35,7 @@ export async function createTask(body) {
 export async function fetchTasks(userId, status) {
   let response = null;
   try {
-    response = await axios.get(URL, { params: { userId, status } });
+    response = await axios.get(`${URL}/task`, { params: { userId, status } });
   } catch {
     useTaskStore.getState().setTasks(status, []);
   }
@@ -49,7 +49,7 @@ export async function fetchTasks(userId, status) {
 export async function fetchTaskById(id) {
   let response = null;
   try {
-    response = await axios.get(`${URL}/${id}`);
+    response = await axios.get(`${URL}/task/${id}`);
   } catch {
     useTaskStore.getState().setSelectedTask({});
   }
@@ -61,7 +61,7 @@ export async function fetchTaskById(id) {
 }
 
 export async function updateTask(id, body) {
-  const response = await axios.put(`${URL}/${id}`, body);
+  const response = await axios.put(`${URL}/task/${id}`, body);
 
   if (response?.data) {
     useTaskStore.getState().setTasks(response.data, body.status);
@@ -70,4 +70,8 @@ export async function updateTask(id, body) {
   } else {
     return Promise.reject(new Error("Failed to update task"));
   }
+}
+
+export async function deleteTask(id, userId) {
+  await axios.delete(`${URL}/user/${userId}/task/${id}`);
 }

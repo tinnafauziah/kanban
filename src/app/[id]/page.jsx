@@ -7,20 +7,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { fetchTaskById, useTaskStore } from "@/store/task";
+import { fetchTaskById, useTaskStore, deleteTask } from "@/store/task";
+import { useToastStore } from "@/store/toast";
+import { useLoginStore } from "@/store/login";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { BADGES_TEAM_MAP } from "@/type/task";
 import { formatDate } from "@/lib/date";
 import TaskForm from "@/components/TaskForm";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 export default function Detail() {
   const { id } = useParams();
 
+  const router = useRouter();
+
   const { selectedTask } = useTaskStore();
+  const { loggedUser } = useLoginStore();
 
   const [loading, setLoading] = useState(true);
+
+  const { openToast } = useToastStore();
+
+  const handleDelete = async (id) => {
+    await deleteTask(id, loggedUser.id);
+    router.replace("/");
+    openToast("Task already deleted");
+  };
 
   const fetchTaskDetail = (id) => {
     setLoading(true);
@@ -94,10 +109,20 @@ export default function Detail() {
             </div>
           </CardContent>
         </Card>
-        <div className="flex justify-end">
+        <div className="flex justify-end  items-center gap-2">
           <TaskForm
             task={selectedTask}
             Trigger={<Button className="my-8">Edit Task</Button>}
+          />
+          <div>or</div>
+          <ConfirmationModal
+            onConfirm={handleDelete}
+            Trigger={
+              <Button className="my-8 px-0" variant="ghost" size="sm">
+                <p className="text-destructive font-normal">Delete</p>
+              </Button>
+            }
+            id={selectedTask?.id}
           />
         </div>
       </main>
